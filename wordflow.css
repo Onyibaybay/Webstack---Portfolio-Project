@@ -7,6 +7,13 @@ body {
   align-items: center;
   height: 100vh;
   background-color: #460b39;
+  margin: 0;
+  padding: 0;
+  background-image: url('images.webp'); /* Replace with your image */
+  background-size: cover; /* Ensures the image covers the entire page */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  height: 100vh; /* Sets height to 100% of the viewport */
 }
 .container {
   text-align: center;
