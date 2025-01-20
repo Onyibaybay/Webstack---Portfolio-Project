@@ -9,7 +9,7 @@ body {
   background-color: #460b39;
   margin: 0;
   padding: 0;
-  background-image: url('images.webp'); /* Replace with your image */
+  background-image: url('images.avif'); /* Replace with your image */
   background-size: cover; /* Ensures the image covers the entire page */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents tiling */
@@ -19,8 +19,8 @@ body {
   text-align: center;
   padding: 50px;
   max-width: 400px;
-  background: white;
-  box-shadow: 16 4px 8px rgba(240, 233, 238, 0.068);
+  background: rgb(153, 192, 62);
+  box-shadow: 16 4px 8px rgba(46, 13, 37, 0.068);
   border-radius: 50px;
 }
 input[type="text"] {
@@ -41,7 +41,7 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background-color: #b3007d;
+  background-color: #e71010;
 }
 .result {
   margin-top: 100px;
