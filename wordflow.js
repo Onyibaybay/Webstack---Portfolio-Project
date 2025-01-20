@@ -1,4 +1,3 @@
-<script>
 async function getDefinition() {
   const word = document.getElementById("wordInput").value.trim();
   const resultDiv = document.getElementById("result");
@@ -30,4 +29,3 @@ async function getDefinition() {
     resultDiv.innerHTML = "<p>Word not found. Please try again.</p>";
   }
 }
-</script>
