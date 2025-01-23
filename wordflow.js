@@ -19,4 +19,21 @@ async function getDefinition() {
       const meanings = data[0]?.meanings || [];
       const phonetics = data[0]?.phonetics[0]?.text || "No phonetics available.";
   
-      
+      if (meanings.length === 0) {
+        throw new Error("No definitions available.");
+      }
+  
+      const definition = meanings[0].definitions[0].definition || "No definition available.";
+      const example = meanings[0].definitions[0].example || "No example available.";
+  
+      resultDiv.innerHTML = `
+        <h2>${word}</h2>
+        <p><strong>Definition:</strong> ${definition}</p>
+        <p><strong>Example:</strong> ${example}</p>
+        <p><strong>Phonetics:</strong> ${phonetics}</p>
+      `;
+    } catch (error) {
+      resultDiv.innerHTML = `<p>${error.message}. Please try again.</p>`;
+    }
+  }
+  
