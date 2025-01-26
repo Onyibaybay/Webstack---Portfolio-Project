@@ -36,8 +36,8 @@
 //       resultDiv.innerHTML = `<p>${error.message}. Please try again.</p>`;
 //     }
 //   }
-const apiKey = "ebab3efc-884f-4dcc-be1e-663733c5d2af"; // Replace with your actual API key
-const apiUrl = "https://dictionaryapi.com/api/v3/references/sd4/json/test?key=ebab3efc-884f-4dcc-be1e-663733c5d2af"; // Example using OwlBot API
+const apiKey = "YOUR_API_KEY"; // Replace with your actual API key
+const apiUrl = "https://owlbot.info/api/v4/dictionary"; // Example using OwlBot API
 
 async function getDefinition() {
   const word = document.getElementById("wordInput").value.trim().toLowerCase();
