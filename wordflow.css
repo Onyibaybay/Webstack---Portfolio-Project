@@ -46,8 +46,10 @@ button:hover {
 .result {
   margin-top: 100px;
   text-align: left;
-  
+  font-style: italic;
+
 }
 .result h2 {
-  color: #0400ff;
+  color: #06258d;
+  text-transform: capitalize;
 }
