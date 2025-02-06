@@ -33,17 +33,17 @@ async function getDefinition() {
     const entry = data[0];
     const definition = entry.shortdef?.[0] || "No definition found.";
     const partOfSpeech = entry.fl || "Unknown";
-    const pronunciation = entry.hwi?.hw || "Not available";
-    const synonyms = entry.meta?.syns?.[0]?.join(", ") || "None";
-    const examples = entry.def?.[0]?.sseq?.[0]?.[0]?.[1]?.dt?.find(dt => dt[0] === "vis")?.[1]?.[0]?.t || "No example available.";
+    // const pronunciation = entry.hwi?.hw || "Not available";
+    // const synonyms = entry.meta?.syns?.[0]?.join(", ") || "None";
+    // const examples = entry.def?.[0]?.sseq?.[0]?.[0]?.[1]?.dt?.find(dt => dt[0] === "vis")?.[1]?.[0]?.t || "No example available.";
 
+    // <p><strong>Pronunciation:</strong> ${pronunciation}</p>
+    // <p><strong>Synonyms:</strong> ${synonyms}</p> 
+    // <p><strong>Example:</strong> ${examples}</p>
     resultDiv.innerHTML = `
       <h2>${word}</h2>
       <p><strong>Definition:</strong> ${definition}</p>
       <p><strong>Part of Speech:</strong> ${partOfSpeech}</p>
-      <p><strong>Pronunciation:</strong> ${pronunciation}</p>
-      <p><strong>Synonyms:</strong> ${synonyms}</p>
-      <p><strong>Example:</strong> ${examples}</p>
     `;
   } catch (error) {
     console.error("Error occurred:", error); // Log error details
