@@ -1,0 +1,37 @@
+body {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-image: url('images.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: 0;
+  }
+  
+  .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 50px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+    transition: 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  #historyList p {
+    padding: 8px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  #historyList p:hover {
+    background-color: #330f0f;
+  }
+  

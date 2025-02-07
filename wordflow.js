@@ -1,52 +1,134 @@
-const apiKey = "ebab3efc-884f-4dcc-be1e-663733c5d2af"; // Replace with your actual API key
-const apiUrl = "https://dictionaryapi.com/api/v3/references/sd4/json";
+const apiKey = "i9h9kyffh9feg5npmq36s8dx2tj8iergq7ch5k5glkbjb0uok";
+const apiUrl = "https://api.wordnik.com/v4/word.json";
+const wordOfTheDayUrl = "https://api.wordnik.com/v4/words.json/wordOfTheDay";
 
+// Fetch Definition
 async function getDefinition() {
-  const word = document.getElementById("wordInput").value.trim().toLowerCase();
-  const resultDiv = document.getElementById("result");
-
-  if (!word) {
-    resultDiv.innerHTML = "<p>Please enter a word to search.</p>";
-    return;
-  }
-
-  resultDiv.innerHTML = "<p>Loading...</p>";
+  const word = document.getElementById("wordInput").value.trim();
+  if (!word) return alert("Please enter a word");
 
   try {
-    const url = `${apiUrl}/${word}?key=${apiKey}`;
-    console.log("Fetching:", url); // Debug the URL
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.log("Response status:", response.status); // Debug status code
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
-    }
-
+    const response = await fetch(`${apiUrl}/${word}/definitions?api_key=${apiKey}`);
     const data = await response.json();
-    console.log("Response data:", data); // Debug API response
 
-    if (!Array.isArray(data) || data.length === 0) {
-      throw new Error("No definitions found for the given word.");
+    console.log("API Response:", data);
+
+    if (!Array.isArray(data) || data.length === 0 || !data[0].text) {
+      document.getElementById("result").innerHTML = `<p>No definition found.</p>`;
+    } else {
+      document.getElementById("result").innerHTML = `
+        <h2>${word}</h2>
+        <p>${data[0].text}</p>
+      `;
+      saveToHistory(word);
     }
-
-    // Extract additional details
-    const entry = data[0];
-    const definition = entry.shortdef?.[0] || "No definition found.";
-    const partOfSpeech = entry.fl || "Unknown";
-    // const pronunciation = entry.hwi?.hw || "Not available";
-    // const synonyms = entry.meta?.syns?.[0]?.join(", ") || "None";
-    // const examples = entry.def?.[0]?.sseq?.[0]?.[0]?.[1]?.dt?.find(dt => dt[0] === "vis")?.[1]?.[0]?.t || "No example available.";
-
-    // <p><strong>Pronunciation:</strong> ${pronunciation}</p>
-    // <p><strong>Synonyms:</strong> ${synonyms}</p> 
-    // <p><strong>Example:</strong> ${examples}</p>
-    resultDiv.innerHTML = `
-      <h2>${word}</h2>
-      <p><strong>Definition:</strong> ${definition}</p>
-      <p><strong>Part of Speech:</strong> ${partOfSpeech}</p>
-    `;
   } catch (error) {
-    console.error("Error occurred:", error); // Log error details
-    resultDiv.innerHTML = `<p>${error.message}. Please try again.</p>`;
+    console.error("API Error:", error);
+    document.getElementById("result").innerHTML = `<p>Could not load the definition.</p>`;
   }
 }
+
+// Fetch Word of the Day
+async function fetchWordOfTheDay() {
+  try {
+    const response = await fetch(`${wordOfTheDayUrl}?api_key=${apiKey}`);
+    const data = await response.json();
+
+    if (!data || !data.word) {
+      console.warn("Invalid Word of the Day:", data);
+      return;
+    }
+
+    localStorage.setItem("wordOfTheDay", data.word);
+    localStorage.setItem("wotdDate", new Date().toISOString().split("T")[0]);
+
+    displayWordOfTheDay(data.word);
+  } catch (error) {
+    console.error("Error fetching Word of the Day:", error);
+  }
+}
+
+// Display Word of the Day
+async function displayWordOfTheDay(word) {
+  const wotdDiv = document.getElementById("wordOfTheDay");
+
+  try {
+    const response = await fetch(`${apiUrl}/${word}/definitions?api_key=${apiKey}`);
+    const data = await response.json();
+    const definition = data[0]?.text || "No definition available.";
+
+    wotdDiv.innerHTML = `<h2>Word of the Day: ${word}</h2><p>${definition}</p>`;
+  } catch (error) {
+    console.error("Error loading Word of the Day:", error);
+    wotdDiv.innerHTML = `<p>Could not load the definition.</p>`;
+  }
+}
+
+// Run on Page Load
+window.onload = function () {
+  fetchWordOfTheDay();
+};
+
+
+// Text-to-Speech Pronunciation
+function playPronunciation(word) {
+  let speech = new SpeechSynthesisUtterance(word);
+  speech.lang = "en-US";
+  speech.rate = 0.9;
+  window.speechSynthesis.speak(speech);
+}
+
+// Dark Mode Toggle
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+}
+
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark-mode");
+}
+
+// Voice Search
+function startVoiceSearch() {
+  let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = "en-US";
+  
+  recognition.onresult = function(event) {
+    document.getElementById("wordInput").value = event.results[0][0].transcript;
+    getDefinition();
+  };
+  
+  recognition.start();
+}
+
+// Search History
+function saveToHistory(word) {
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  
+  if (!history.includes(word)) {
+    history.unshift(word);
+    if (history.length > 5) history.pop();
+    localStorage.setItem("searchHistory", JSON.stringify(history));
+  }
+  displayHistory();
+}
+
+function displayHistory() {
+  let historyDiv = document.getElementById("searchHistory");
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  historyDiv.innerHTML = `<h3>Recent Searches</h3>${history.map(w => `<p>${w}</p>`).join("")}`;
+}
+
+// Set Username
+let username = localStorage.getItem("username") || "";
+function setUsername() {
+  username = prompt("Enter your name:");
+  if (username) {
+    localStorage.setItem("username", username);
+  }
+}
+
+window.onload = function () {
+  fetchWordOfTheDay();
+  displayHistory();
+};

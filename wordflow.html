@@ -1,18 +1,24 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dictionary App</title>
+  <title>WordFlow Dictionary</title>
   <link rel="stylesheet" href="wordflow.css">
 </head>
 <body>
   <div class="container">
     <h1>WordFlow App</h1>
     <input type="text" id="wordInput" placeholder="Enter a word..." />
-    <button onclick="getDefinition()">Search</button>
+    <button onclick="getDefinition()">Search</button> <hr>
+    <div <button onclick="playPronunciation(document.getElementById('wordInput').value)">🔊 Listen</button> 
+    <button onclick="startVoiceSearch()">🎙️ Speak</button>
+    <button onclick="toggleDarkMode()">🌙 Dark Mode</button> /</div> <hr>
     <div class="result" id="result"></div>
-  </div>
-   <script src="wordflow.js"></script
+    <div id="wordOfTheDay"></div>
+    <div id="historyList" class="history-dropdown"></div>
+    <!-- <div id="searchHistory"></div> -->
+    <button onclick="window.location.href='history.html'" class="btn">📜 View Recent Search</button>
+  <script src="wordflow.js"></script>
 </body>
 </html>
